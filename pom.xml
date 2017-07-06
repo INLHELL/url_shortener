@@ -142,18 +142,24 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>com.coderplus.maven.plugins</groupId>
+                <artifactId>copy-rename-maven-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-file</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <sourceFile>${project.build.directory}/generated-docs/help.html</sourceFile>
+                            <destinationFile>src/main/resources/static/help/help.html</destinationFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>${project.build.directory}/generated-docs</directory><!-- from -->
-                <targetPath>${basedir}/src/main/resources/static/help</targetPath><!-- to -->
-                <includes><!-- what -->
-                    <!--<overwrite>true</overwrite>-->
-                    <include>help.html</include>
-                </includes>
-            </resource>
-        </resources>
 	</build>
-
-
 </project>
