@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.security.Principal;
 import java.util.Objects;
 
@@ -55,7 +56,7 @@ public class UrlRegistrationController {
     @ResponseBody
     public RegisteredShortUrlResponse registerUrl(
             @RequestBody @Valid final RegisteringUrlRequest registeringUrlRequest,
-            final Principal principal) {
+            final Principal principal) throws UnknownHostException {
         log.info("/register request processed, for user with account id:{}", principal.getName());
         val urlHash = urlRegistrationService.register(
                 principal.getName(),
@@ -81,13 +82,13 @@ public class UrlRegistrationController {
     private static final class RegisteredShortUrlResponse {
 
         private final static String SCHEME = "http";
-        private final static String HOSTNAME = InetAddress.getLoopbackAddress().getHostName();
 
         @JsonProperty("shortUrl")
         private final String urlHash;
 
-        RegisteredShortUrlResponse(final String urlHash, final String port) {
-            this.urlHash = SCHEME + "://" + HOSTNAME +  (isNull(port) || port.equals("80") ? EMPTY : ":" + port) + "/" + urlHash;
+        RegisteredShortUrlResponse(final String urlHash, final String port) throws UnknownHostException {
+            val hostname = InetAddress.getLocalHost().getHostName();
+            this.urlHash = SCHEME + "://" + hostname +  (isNull(port) || port.equals("80") ? EMPTY : ":" + port) + "/" + urlHash;
         }
     }
 
