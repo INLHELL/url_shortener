@@ -87,8 +87,8 @@ public class UrlRegistrationController {
         private final String urlHash;
 
         RegisteredShortUrlResponse(final String urlHash, final String port) throws UnknownHostException {
-            val hostname = InetAddress.getLocalHost().getCanonicalHostName();
-            this.urlHash = SCHEME + "://" + hostname +  (isNull(port) || port.equals("80") ? EMPTY : ":" + port) + "/" + urlHash;
+            String hostId = System.getenv("PS1");
+            this.urlHash = SCHEME + "://" + hostId +  (isNull(port) || port.equals("80") ? EMPTY : ":" + port) + "/" + urlHash;
         }
     }
 
