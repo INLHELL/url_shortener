@@ -1,0 +1,183 @@
+= URL Shortener Service API Guide
+Vladislav Fedotov;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[introduction]
+= Introduction
+
+URL Shortener Service is a RESTful microservice for shorten URLs
+
+[[overview]]
+= Overview
+
+[[overview-http-verbs]]
+== HTTP verbs
+Person-service tries to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP verbs.
+|===
+| Verb | Usage
+
+| `GET`
+| Used to retrieve a resource
+
+| `POST`
+| Used to create a new resource
+
+| `PATCH`
+| Used to update an existing resource, including partial updates
+
+| `PUT`
+| Used to update an existing resource, full updates only
+
+| `DELETE`
+| Used to delete an existing resource
+|===
+
+[[overview-http-status-codes]]
+== HTTP status codes
+Person-service tries to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP status codes.
+
+|===
+| Status code | Usage
+
+| `200 OK`
+| Standard response for successful HTTP requests.
+The actual response will depend on the request method used.
+In a GET request, the response will contain an entity corresponding to the requested resource.
+In a POST request, the response will contain an entity describing or containing the result of the action.
+
+| `201 Created`
+| The request has been fulfilled and resulted in a new resource being created.
+
+| `204 No Content`
+| The server successfully processed the request, but is not returning any content.
+
+| `400 Bad Request`
+| The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).
+
+| `404 Not Found`
+| The requested resource could not be found but may be available again in the future. Subsequent requests by the client are permissible.
+|===
+
+
+
+== Opening of accounts
+
+A `POST` request creates account with passed id (if passed id wasn't already created).
+
+=== Request structure
+
+include::{snippets}/documentation-test/account/http-request.adoc[]
+
+=== Request fields
+
+include::{snippets}/documentation-test/account/request-fields.adoc[]
+
+=== Response fields
+
+include::{snippets}/documentation-test/account/response-fields.adoc[]
+
+=== Example response
+
+include::{snippets}/documentation-test/account/http-response.adoc[]
+
+=== cURL request
+
+include::{snippets}/documentation-test/account/curl-request.adoc[]
+
+
+
+
+
+== Registration of URLs
+
+A `POST` request registers passed URL and returns it's shorted version.
+
+=== Request headers
+
+include::{snippets}/documentation-test/register-url/request-headers.adoc[]
+
+=== Request structure
+
+include::{snippets}/documentation-test/register-url/http-request.adoc[]
+
+=== Request fields
+
+include::{snippets}/documentation-test/register-url/request-fields.adoc[]
+
+=== Response fields
+
+include::{snippets}/documentation-test/register-url/response-fields.adoc[]
+
+=== Example response
+
+include::{snippets}/documentation-test/register-url/http-response.adoc[]
+
+=== cURL request
+
+include::{snippets}/documentation-test/register-url/curl-request.adoc[]
+
+
+
+
+== Redirect to target URL by short URL
+
+A `GET` request redirecting the client on the configured address with the configured http status.
+
+=== Request structure
+
+include::{snippets}/documentation-test/redirect-to-url/http-request.adoc[]
+
+=== Request path parameters
+
+include::{snippets}/documentation-test/redirect-to-url/path-parameters.adoc[]
+
+=== Response headers
+
+include::{snippets}/documentation-test/redirect-to-url/response-headers.adoc[]
+
+=== Example response
+
+include::{snippets}/documentation-test/redirect-to-url/http-response.adoc[]
+
+=== cURL request
+
+include::{snippets}/documentation-test/redirect-to-url/curl-request.adoc[]
+
+
+
+
+
+== Retrieval of statistics
+
+A `GET` request returns list of registered URLs with corresponding number of redirects
+
+=== Request headers
+
+include::{snippets}/documentation-test/statistics/request-headers.adoc[]
+
+=== Request structure
+
+include::{snippets}/documentation-test/statistics/http-request.adoc[]
+
+=== Request path parameters
+
+include::{snippets}/documentation-test/statistics/path-parameters.adoc[]
+
+=== Response fields
+
+include::{snippets}/documentation-test/statistics/response-fields.adoc[]
+
+=== Example response
+
+include::{snippets}/documentation-test/statistics/http-response.adoc[]
+
+=== cURL request
+
+include::{snippets}/documentation-test/statistics/curl-request.adoc[]
