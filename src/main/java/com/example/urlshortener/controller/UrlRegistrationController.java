@@ -87,7 +87,7 @@ public class UrlRegistrationController {
         private final String urlHash;
 
         RegisteredShortUrlResponse(final String urlHash, final String port) throws UnknownHostException {
-            String hostId = System.getenv("HEROKU_APP_NAME");
+            String hostId = System.getenv("HEROKU_APP_ID") +"|"+System.getenv("HEROKU_APP_NAME")+"|"+System.getenv("HEROKU_DYNO_ID");
             this.urlHash = SCHEME + "://" + hostId +  (isNull(port) || port.equals("80") ? EMPTY : ":" + port) + "/" + urlHash;
         }
     }
