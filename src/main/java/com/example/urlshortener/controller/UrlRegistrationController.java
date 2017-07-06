@@ -27,6 +27,7 @@ import java.util.Objects;
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.defaultString;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.springframework.http.HttpStatus.FOUND;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -87,8 +88,10 @@ public class UrlRegistrationController {
         private final String urlHash;
 
         RegisteredShortUrlResponse(final String urlHash, final String port) throws UnknownHostException {
-            String hostId = System.getenv("HEROKU_APP_ID") +"|"+System.getenv("HEROKU_APP_NAME")+"|"+System.getenv("HEROKU_DYNO_ID");
-            this.urlHash = SCHEME + "://" + hostId +  (isNull(port) || port.equals("80") ? EMPTY : ":" + port) + "/" + urlHash;
+            boolean deployedToHeroku = isNotBlank(System.getenv("DYNO"));
+            String host = deployedToHeroku ? "urlshorten.herokuapp.com" : InetAddress.getLoopbackAddress().getHostName();
+            String definedBasedOnEnvPort = deployedToHeroku ? "" : (isNull(port) || port.equals("80") ? EMPTY : ":" + port);
+            this.urlHash = SCHEME + "://" + host + definedBasedOnEnvPort + "/" + urlHash;
         }
     }
 
